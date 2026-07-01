@@ -1,36 +1,33 @@
-# Crypto Terminal 2.1
+# Crypto Terminal 3.0
 
-Профессиональная Streamlit-версия крипто-бота: Binance market data, свечные графики, RSI, MACD, EMA, Bollinger Bands, ADX, ATR, Stochastic, скоринг монет, сканер, heatmap, избранное и демо-портфель.
+Mobile-first Streamlit crypto terminal.
 
-## Запуск локально
+## Features
+
+- Mobile-first layout
+- Binance public market data via `data-api.binance.vision`
+- Candlestick Plotly chart
+- RSI, MACD, EMA 20/50/200, Bollinger Bands, ADX, ATR, Stochastic
+- Market scoring
+- Scanner
+- Heatmap
+- Favorites
+- Virtual portfolio
+- Modular architecture
+
+## Run locally
 
 ```bash
-python3 -m pip install -r requirements.txt
-python3 -m streamlit run app.py
+pip install -r requirements.txt
+streamlit run app.py
 ```
 
-## Деплой Streamlit Cloud
+## Deploy
 
-- Repository: `appdepp/crypto-streamlit-project`
-- Branch: `main`
-- Main file path: `app.py`
-
-## Обновление GitHub
+Push to GitHub. Streamlit Cloud will redeploy automatically.
 
 ```bash
 git add .
-git commit -m "Upgrade to Crypto Terminal 2.1"
+git commit -m "Upgrade to Crypto Terminal 3.0"
 git push
 ```
-
-## Важно
-
-Это аналитический инструмент, а не финансовая рекомендация. Для торговли нужны бэктесты, риск-менеджмент и проверка стратегии.
-
-
-## v2.1 Mobile-first update
-
-- Mobile-safe navigation via top selectbox instead of overflowing tabs.
-- Compact responsive Plotly charts.
-- One-column layout on phones.
-- Better metric cards and hero block for small screens.
