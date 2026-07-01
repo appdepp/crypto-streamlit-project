@@ -1,4 +1,4 @@
-APP_TITLE = "Crypto Terminal 3.0"
+APP_TITLE = "Crypto Terminal 4.0"
 APP_ICON = "📈"
 BINANCE_BASE_URL = "https://data-api.binance.vision"
 DEFAULT_SYMBOL = "BTCUSDT"

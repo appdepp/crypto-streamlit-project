@@ -2,32 +2,29 @@ from __future__ import annotations
 
 import pandas as pd
 import streamlit as st
-from components.charts import candlestick_chart, gauge
-from components.layout import signal_badge
+from components.charts import candlestick_chart
+from components.layout import asset_card, format_price, score_bars, section
 from services.binance import get_klines
 from services.indicators import add_indicators
 from services.scoring import score_market
 
 
-def render(symbol: str, interval: str, limit: int, show_ema: bool, show_bb: bool):
-    st.subheader(f"Chart · {symbol}")
+def render(symbol: str, interval: str, limit: int, show_ema: bool, show_bb: bool, show_volume: bool, show_rsi: bool, show_macd: bool):
     df = add_indicators(get_klines(symbol, interval, limit))
     score = score_market(df)
-    st.markdown(f"Сигнал: {signal_badge(score['signal'], score['total'])}", unsafe_allow_html=True)
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Price", f"${score['price']:,.4g}")
-    c2.metric("Total", f"{score['total']}/100", score["signal"])
-    c3.metric("RSI", f"{score['rsi']:.1f}")
-    c4.metric("ADX", f"{score['adx']:.1f}")
-    g1, g2, g3, g4 = st.columns(4)
-    g1.plotly_chart(gauge(score["trend"], "Trend", compact=True), use_container_width=True)
-    g2.plotly_chart(gauge(score["momentum"], "Momentum", compact=True), use_container_width=True)
-    g3.plotly_chart(gauge(score["volume"], "Volume", compact=True), use_container_width=True)
-    g4.plotly_chart(gauge(score["total"], "Total", compact=True), use_container_width=True)
-    st.plotly_chart(candlestick_chart(df, symbol, show_ema, show_bb, compact=True), use_container_width=True)
+    asset_card(symbol, score["price"], score["signal"], score["total"], score.get("rsi"), score.get("adx"), interval)
+    section("Signal quality", "Быстрая оценка без громоздких gauge-графиков.")
+    score_bars(score)
+    section("Chart", "Свечи и выбранные индикаторы. Лишние слои можно отключить в sidebar.")
+    st.plotly_chart(
+        candlestick_chart(df, symbol, show_ema=show_ema, show_bb=show_bb, show_volume=show_volume, show_rsi=show_rsi, show_macd=show_macd, compact=True),
+        use_container_width=True,
+        config={"displayModeBar": False, "scrollZoom": True},
+    )
     latest = df.dropna().iloc[-1]
-    st.caption("Последние значения индикаторов")
-    st.dataframe(pd.DataFrame([{
-        "price": latest["close"], "rsi": latest["rsi"], "macd": latest["macd"], "macd_signal": latest["macd_signal"],
-        "adx": latest["adx"], "atr": latest["atr"], "ema20": latest["ema20"], "ema50": latest["ema50"], "ema200": latest["ema200"],
-    }]), use_container_width=True, hide_index=True)
+    with st.expander("Последние значения индикаторов"):
+        st.dataframe(pd.DataFrame([{
+            "price": format_price(latest["close"]), "rsi": round(latest["rsi"], 2), "macd": round(latest["macd"], 4),
+            "macd_signal": round(latest["macd_signal"], 4), "adx": round(latest["adx"], 2), "atr": round(latest["atr"], 4),
+            "ema20": round(latest["ema20"], 4), "ema50": round(latest["ema50"], 4), "ema200": round(latest["ema200"], 4),
+        }]), use_container_width=True, hide_index=True)

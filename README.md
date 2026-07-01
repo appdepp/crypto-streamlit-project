@@ -1,21 +1,19 @@
-# Crypto Terminal 3.0
+# Crypto Terminal 4.0
 
 Mobile-first Streamlit crypto terminal.
 
 ## Features
 
-- Mobile-first layout
+- Compact mobile-first UI
+- Asset summary card
+- Candlestick chart with optional layers
+- RSI, MACD, EMA, Bollinger, ADX, ATR, Stochastic
+- Horizontal score bars instead of bulky gauges
+- Mobile scanner cards
+- Heatmap, favorites, portfolio
 - Binance public market data via `data-api.binance.vision`
-- Candlestick Plotly chart
-- RSI, MACD, EMA 20/50/200, Bollinger Bands, ADX, ATR, Stochastic
-- Market scoring
-- Scanner
-- Heatmap
-- Favorites
-- Virtual portfolio
-- Modular architecture
 
-## Run locally
+## Run
 
 ```bash
 pip install -r requirements.txt
@@ -25,9 +23,3 @@ streamlit run app.py
 ## Deploy
 
 Push to GitHub. Streamlit Cloud will redeploy automatically.
-
-```bash
-git add .
-git commit -m "Upgrade to Crypto Terminal 3.0"
-git push
-```
