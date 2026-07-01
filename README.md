@@ -1,17 +1,16 @@
-# Crypto Terminal 4.1
+# Crypto Terminal 4.2
 
-Mobile-first Streamlit crypto terminal with cleaner UI polish.
+Mobile-first crypto dashboard with restored core features:
 
-## 4.1 changes
+- single chart view;
+- multi-timeframe analysis;
+- top Binance volume scanner;
+- multi-timeframe scanner;
+- heatmap;
+- favorites;
+- virtual portfolio.
 
-- hides Streamlit top header/black strip;
-- adds iPhone safe-area top padding;
-- cleaner chart without overloaded legend;
-- horizontal 24h movers chart for better readability;
-- improved scanner cards;
-- six market cards on dashboard.
-
-## Run
+Run:
 
 ```bash
 pip install -r requirements.txt

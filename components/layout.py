@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import math
+import pandas as pd
 import streamlit as st
 from config import MENU
 
@@ -37,24 +38,19 @@ def signal_color(signal: str) -> str:
     return "yellow"
 
 
-def signal_badge(signal: str, score: int | float | None = None) -> str:
-    suffix = "" if score is None else f" · {int(score)}/100"
-    return f"<span class='{signal_class(signal)}'>{signal}{suffix}</span>"
-
-
 def stars(score: int | float) -> str:
     n = max(1, min(5, round(float(score) / 20)))
     return "★" * n + "☆" * (5 - n)
 
 
 def app_top(symbol: str | None = None) -> None:
-    right = f"<span class='quick-dot'>{symbol}</span>" if symbol else "<span class='quick-dot'>Live market</span>"
+    right = f"<span class='quick-dot'>{symbol}</span>" if symbol else "<span class='quick-dot'>Live</span>"
     st.markdown(
         f"""
         <div class="app-top">
           <div class="brand">
             <div class="brand-icon">📈</div>
-            <div><div>Crypto Terminal 4.1</div><div class="brand-sub">market terminal</div></div>
+            <div><div>Crypto Terminal 4.2</div><div class="brand-sub">multi-timeframe market terminal</div></div>
           </div>
           {right}
         </div>
@@ -129,22 +125,63 @@ def mini_metrics(items: list[tuple[str, str, str | None]]) -> None:
     st.markdown("<div class='metric-grid'>" + "".join(cards) + "</div>", unsafe_allow_html=True)
 
 
-def chips(items: list[str]) -> None:
-    html = "".join(f"<span class='coin-chip'>● {item}</span>" for item in items)
-    st.markdown(html, unsafe_allow_html=True)
-
-
-def scan_cards(rows) -> None:
+def scan_cards(rows: pd.DataFrame) -> None:
     html_parts = []
     for _, row in rows.iterrows():
         signal = str(row.get("signal", "Neutral"))
         cls = signal_class(signal)
+        score = int(row.get("score", row.get("avg_score", 0)) or 0)
+        change = row.get("change", row.get("priceChangePercent", ""))
+        change_html = "" if change == "" or pd.isna(change) else f" · 24h {float(change):.2f}%"
         html_parts.append(
             f"""
             <div class="scan-card">
-              <div><div class="scan-symbol">{row.get('symbol','')}</div><div class="scan-price">{format_price(row.get('price'))} · RSI {row.get('rsi','—')} · ADX {row.get('adx','—')}</div></div>
-              <div><div class="scan-score">{int(row.get('score',0))}</div><div class="scan-signal {cls}">{signal}</div></div>
+              <div>
+                <div class="scan-symbol">{row.get('symbol','')}</div>
+                <div class="scan-price">{format_price(row.get('price'))}{change_html} · RSI {row.get('rsi','—')} · ADX {row.get('adx','—')}</div>
+              </div>
+              <div><div class="scan-score">{score}</div><div class="scan-signal {cls}">{signal}</div></div>
             </div>
             """
         )
     st.markdown("".join(html_parts), unsafe_allow_html=True)
+
+
+def timeframe_cards(rows: list[dict]) -> None:
+    html = []
+    for row in rows:
+        signal = row.get("signal", "Neutral")
+        cls = signal_class(signal)
+        score = int(row.get("score", 0))
+        html.append(
+            f"""
+            <div class="tf-card">
+              <div class="tf-head"><span>{row.get('timeframe')}</span><strong>{score}</strong></div>
+              <div class="tf-signal {cls}">{signal}</div>
+              <div class="tf-line">{format_price(row.get('price'))} · RSI {row.get('rsi','—')} · ADX {row.get('adx','—')}</div>
+              <div class="tf-track"><div class="tf-fill" style="width:{max(0, min(100, score))}%"></div></div>
+            </div>
+            """
+        )
+    st.markdown("<div class='tf-grid'>" + "".join(html) + "</div>", unsafe_allow_html=True)
+
+
+def aggregate_card(symbol: str, avg_score: int, bias: str, rows: list[dict]) -> None:
+    cls = signal_class(bias)
+    tf_list = " · ".join([f"{r['timeframe']} {r['score']}" for r in rows])
+    st.markdown(
+        f"""
+        <div class="asset-card compact-asset">
+          <div class="asset-row">
+            <div>
+              <div class="asset-symbol">{symbol}</div>
+              <div class="asset-price">{avg_score}/100</div>
+              <div class="asset-meta"><span class="pill {signal_color(bias)}">{bias}</span><span class="pill">Multi TF</span></div>
+            </div>
+            <div class="tf-summary {cls}">{stars(avg_score)}</div>
+          </div>
+          <div class="tf-line tf-list">{tf_list}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
