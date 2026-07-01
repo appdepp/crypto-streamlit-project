@@ -68,6 +68,14 @@ def section(title: str, subtitle: str | None = None) -> None:
     st.markdown(f"<div class='section-title'>{title}</div>{sub}", unsafe_allow_html=True)
 
 
+def chips(items: list[str]) -> None:
+    clean = [str(x) for x in items if str(x).strip()]
+    if not clean:
+        return
+    html = "".join(f"<span class='coin-chip'>● {item}</span>" for item in clean)
+    st.markdown(f"<div class='chip-row'>{html}</div>", unsafe_allow_html=True)
+
+
 def asset_card(symbol: str, price: float, signal: str, score: int, rsi: float | None = None, adx: float | None = None, interval: str | None = None) -> None:
     color = signal_color(signal)
     extra = []
