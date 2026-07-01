@@ -1,17 +1,15 @@
-# Crypto Terminal 4.0
+# Crypto Terminal 4.1
 
-Mobile-first Streamlit crypto terminal.
+Mobile-first Streamlit crypto terminal with cleaner UI polish.
 
-## Features
+## 4.1 changes
 
-- Compact mobile-first UI
-- Asset summary card
-- Candlestick chart with optional layers
-- RSI, MACD, EMA, Bollinger, ADX, ATR, Stochastic
-- Horizontal score bars instead of bulky gauges
-- Mobile scanner cards
-- Heatmap, favorites, portfolio
-- Binance public market data via `data-api.binance.vision`
+- hides Streamlit top header/black strip;
+- adds iPhone safe-area top padding;
+- cleaner chart without overloaded legend;
+- horizontal 24h movers chart for better readability;
+- improved scanner cards;
+- six market cards on dashboard.
 
 ## Run
 
@@ -19,7 +17,3 @@ Mobile-first Streamlit crypto terminal.
 pip install -r requirements.txt
 streamlit run app.py
 ```
-
-## Deploy
-
-Push to GitHub. Streamlit Cloud will redeploy automatically.

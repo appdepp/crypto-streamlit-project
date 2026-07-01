@@ -54,7 +54,7 @@ def app_top(symbol: str | None = None) -> None:
         <div class="app-top">
           <div class="brand">
             <div class="brand-icon">📈</div>
-            <div><div>Crypto Terminal 4.0</div><div class="brand-sub">mobile trading dashboard</div></div>
+            <div><div>Crypto Terminal 4.1</div><div class="brand-sub">market terminal</div></div>
           </div>
           {right}
         </div>
@@ -64,7 +64,7 @@ def app_top(symbol: str | None = None) -> None:
 
 
 def top_nav() -> str:
-    return st.selectbox("Раздел", MENU, index=1, label_visibility="collapsed")
+    return st.selectbox("Раздел", MENU, index=0, label_visibility="collapsed")
 
 
 def section(title: str, subtitle: str | None = None) -> None:

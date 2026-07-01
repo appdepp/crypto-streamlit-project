@@ -5,16 +5,16 @@ from components.layout import section
 
 
 def render():
-    section("Settings / README", "Crypto Terminal 4.0: mobile-first UI/UX.")
+    section("Settings / README", "Crypto Terminal 4.1: polish update.")
     st.markdown("""
-    **Что изменено в 4.0**
+    **Что изменено в 4.1**
 
-    - большая hero-шапка заменена на компактную верхнюю панель;
-    - карточка актива стала главным элементом экрана;
-    - gauge-графики заменены горизонтальными score-барами;
-    - scanner теперь показывает мобильные карточки;
-    - график стал легче и не перегружает телефон;
-    - старые таблицы спрятаны в expander.
+    - убрана/спрятана верхняя чёрная полоса Streamlit header;
+    - добавлен безопасный верхний отступ для iPhone/Safari;
+    - график стал чище: убрана перегруженная легенда;
+    - Dashboard-график заменён на горизонтальный bar chart;
+    - карточки scanner стали визуально дороже;
+    - Dashboard теперь показывает до 6 карточек вместо 4.
 
     **Обновление:** измени файлы → `git add -A` → `git commit -m "..."` → `git push`.
 

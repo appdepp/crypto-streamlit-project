@@ -31,12 +31,12 @@ def candlestick_chart(df, symbol: str, show_ema=True, show_bb=False, show_volume
         fig.add_trace(go.Bar(x=df["open_time"], y=df["macd_hist"], name="Hist"), row=r, col=1)
     fig.update_layout(
         template="plotly_dark",
-        height=560 if compact else 760,
+        height=520 if compact else 740,
         xaxis_rangeslider_visible=False,
         margin=dict(l=2, r=2, t=12, b=4),
-        legend=dict(orientation="h", yanchor="bottom", y=1.01, xanchor="left", x=0, font=dict(size=9)),
+        showlegend=False,
         paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
     )
-    fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,.09)")
-    fig.update_xaxes(showgrid=False)
+    fig.update_yaxes(showgrid=True, gridcolor="rgba(255,255,255,.055)", zeroline=False)
+    fig.update_xaxes(showgrid=False, rangeslider_visible=False)
     return fig
