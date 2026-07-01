@@ -1,12 +1,25 @@
-# Crypto Terminal Final
+# Crypto Terminal Modular Stable
 
-Stable mobile-first Streamlit crypto terminal.
+Stable modular Streamlit crypto terminal.
 
-Features: Binance market data, candle chart, RSI, MACD, EMA, Bollinger Bands, ADX, Multi-Timeframe analysis, Top Binance volume scanner, heatmap, favorites and virtual portfolio.
+## Features
 
-Run:
+- Mobile-first UI
+- Dashboard
+- Chart with EMA, Bollinger, Volume, RSI, MACD
+- Multi-timeframe analysis
+- Top Binance volume scanner
+- Single TF and Multi TF scanner modes
+- Heatmap
+- Favorites
+- Virtual portfolio
+- Binance public data fallback endpoints
+
+## Run
 
 ```bash
 pip install -r requirements.txt
 streamlit run app.py
 ```
+
+Signals are analytical scores, not financial advice.
